@@ -13,3 +13,8 @@ app_login:
 app_logout:
     path: /logout
     methods: GET
+
+api_parse:
+    path: /api
+    controller: App\ParserBundle\Presentation\Api\Controller\ApiController::parseSlackJson
+    methods: GET

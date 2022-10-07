@@ -11,4 +11,9 @@ interface MemeImageParserInterface
      * @throws DomainException
      */
     public function getMemeImagesFromFile(InputFile $file): MemeImageCollection;
+
+    /**
+     * @throws DomainException
+     */
+    public function getMemeImagesFromJson(string $json): MemeImageCollection;
 }

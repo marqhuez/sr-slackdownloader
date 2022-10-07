@@ -6,6 +6,7 @@ use App\ParserBundle\Application\Exception\ApplicationException;
 use App\ParserBundle\Application\GetImagesFromFile\GetImagesFromFileQuery;
 use App\ParserBundle\Application\GetShoprenterWorkerById\GetShoprenterWorkerByIdQuery;
 use App\ParserBundle\Domain\ShoprenterWorker;
+use App\ParserBundle\Infrastructure\FileReader\JsonFileReader;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -48,6 +49,7 @@ class FileUploadController extends AbstractController
         $worker = $this->handle(new GetShoprenterWorkerByIdQuery($this->getUser()->getId()));
 
         try {
+
             $urls = $this->handle(new GetImagesFromFileQuery(
                 $file->getPathname(),
                 $file->getClientOriginalName(),

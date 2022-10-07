@@ -35,4 +35,11 @@ class SlackMemeImageParserAdapter implements MemeImageParserInterface
             throw new DomainException($exception->getMessage(),$exception->getCode());
         }
     }
+
+    public function getMemeImagesFromJson(string $json): MemeImageCollection
+    {
+        $posts = json_decode($json, true);
+
+        return MemeImageCollection::createFromArray($posts);
+    }
 }

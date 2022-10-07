@@ -38,6 +38,12 @@ services:
                 bus: query.bus
                 handles: App\ParserBundle\Application\GetImagesFromFile\GetImagesFromFileQuery
 
+    App\ParserBundle\Application\GetImagesFromJson\GetImagesFromJsonHandler:
+        tags:
+            -   name: messenger.message_handler
+                bus: query.bus
+                handles: App\ParserBundle\Application\GetImagesFromJson\GetImagesFromJsonQuery
+
     App\ParserBundle\Application\GetShoprenterWorkerById\GetShoprenterWorkerByIdHandler:
         tags:
             -   name: messenger.message_handler
