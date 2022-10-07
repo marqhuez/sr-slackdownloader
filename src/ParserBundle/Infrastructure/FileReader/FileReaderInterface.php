@@ -8,5 +8,5 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 interface FileReaderInterface
 {
-    public function getUrls(UploadedFile $file) : MemeImageCollection;
+    public function getUrls(UploadedExportFile $file) : MemeImageCollection;
 }

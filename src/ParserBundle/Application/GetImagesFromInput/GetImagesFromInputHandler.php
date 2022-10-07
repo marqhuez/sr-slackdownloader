@@ -1,6 +1,6 @@
 <?php
 
-namespace App\ParserBundle\Application\GetImagesFromJson;
+namespace App\ParserBundle\Application\GetImagesFromInput;
 
 use App\ParserBundle\Application\Exception\ApplicationException;
 use App\ParserBundle\Domain\Event\DomainEventDispatcherInterface;
@@ -11,7 +11,7 @@ use App\ParserBundle\Domain\MemeImageParserInterface;
 use App\ParserBundle\Domain\ShoprenterWorkerRepositoryInterface;
 use DateTimeImmutable;
 
-class GetImagesFromJsonHandler
+class GetImagesFromInputHandler
 {
     private MemeImageParserInterface $parser;
     private DomainEventDispatcherInterface $dispatcher;
@@ -30,20 +30,20 @@ class GetImagesFromJsonHandler
     /**
      * @throws ApplicationException
      */
-    public function __invoke(GetImagesFromJsonQuery $query): MemeImageCollection
+    public function __invoke(GetImagesFromInputQuery $query): MemeImageCollection
     {
-//        $worker = $this->workerRepository->getById($query->getWorkerId());
+        $worker = $this->workerRepository->getById($query->getWorkerId());
 
         try {
-            $collection = $this->parser->getMemeImagesFromJson($query->getJson());
+            $collection = $this->parser->getMemeImagesFromInput($query->getInput());
         } catch (DomainException $e) {
             throw new ApplicationException($e->getMessage(), $e->getCode());
         }
 
-//        $this->dispatcher->dispatchUserActivityEvent(new UserParsedImagesEvent(
-//            $worker->getId(),
-//            new DateTimeImmutable(),
-//        ));
+        $this->dispatcher->dispatchUserActivityEvent(new UserParsedImagesEvent(
+            $worker->getId(),
+            new DateTimeImmutable(),
+        ));
 
         return $collection;
     }

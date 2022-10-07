@@ -4,7 +4,8 @@ namespace App\ParserBundle\Presentation\Cli\Symfony;
 
 use App\ParserBundle\Application\AuthenticateShoprenterWorker\AuthenticateShoprenterWorkerQuery;
 use App\ParserBundle\Application\Exception\ApplicationException;
-use App\ParserBundle\Application\GetImagesFromFile\GetImagesFromFileQuery;
+use App\ParserBundle\Application\GetImagesFromInput\GetImagesFromInputQuery;
+use App\ParserBundle\Domain\Input\SlackFileInput;
 use App\ParserBundle\Domain\MemeImage;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -13,7 +14,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Messenger\HandleTrait;
 use Symfony\Component\Messenger\MessageBusInterface;
-
 use function time;
 
 class SlackdownloaderImageParseCommand extends Command
@@ -53,9 +53,9 @@ class SlackdownloaderImageParseCommand extends Command
             return Command::FAILURE;
         }
 
-        $urls = $this->handle(new GetImagesFromFileQuery(
-            $filePath,
-            'uploadedFile_' . time() . '.json',
+        $urls = $this->handle(new GetImagesFromInputQuery(
+            new SlackFileInput($filePath,
+            'uploadedFile_' . time() . '.json'),
             $worker->getId()
         ));
 

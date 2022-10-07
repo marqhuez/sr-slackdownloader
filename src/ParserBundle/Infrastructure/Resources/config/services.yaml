@@ -32,17 +32,11 @@ services:
                     bus: query.bus
                     handles: App\ParserBundle\Application\AuthenticateShoprenterWorker\AuthenticateShoprenterWorkerQuery
 
-    App\ParserBundle\Application\GetImagesFromFile\GetImagesFromFileHandler:
+    App\ParserBundle\Application\GetImagesFromInput\GetImagesFromInputHandler:
         tags:
             -   name: messenger.message_handler
                 bus: query.bus
-                handles: App\ParserBundle\Application\GetImagesFromFile\GetImagesFromFileQuery
-
-    App\ParserBundle\Application\GetImagesFromJson\GetImagesFromJsonHandler:
-        tags:
-            -   name: messenger.message_handler
-                bus: query.bus
-                handles: App\ParserBundle\Application\GetImagesFromJson\GetImagesFromJsonQuery
+                handles: App\ParserBundle\Application\GetImagesFromInput\GetImagesFromInputQuery
 
     App\ParserBundle\Application\GetShoprenterWorkerById\GetShoprenterWorkerByIdHandler:
         tags:

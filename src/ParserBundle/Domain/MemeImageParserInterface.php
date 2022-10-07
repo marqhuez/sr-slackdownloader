@@ -3,17 +3,12 @@
 namespace App\ParserBundle\Domain;
 
 use App\ParserBundle\Domain\Exception\DomainException;
-use App\ParserBundle\Domain\ValueObject\InputFile;
+use App\ParserBundle\Domain\Input\SlackInput;
 
 interface MemeImageParserInterface
 {
     /**
      * @throws DomainException
      */
-    public function getMemeImagesFromFile(InputFile $file): MemeImageCollection;
-
-    /**
-     * @throws DomainException
-     */
-    public function getMemeImagesFromJson(string $json): MemeImageCollection;
+    public function getMemeImagesFromInput(SlackInput $input): MemeImageCollection;
 }

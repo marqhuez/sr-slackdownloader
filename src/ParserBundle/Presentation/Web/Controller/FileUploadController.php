@@ -2,12 +2,10 @@
 
 namespace App\ParserBundle\Presentation\Web\Controller;
 
-use App\ParserBundle\Application\Exception\ApplicationException;
-use App\ParserBundle\Application\GetImagesFromFile\GetImagesFromFileQuery;
+use App\ParserBundle\Application\GetImagesFromInput\GetImagesFromInputQuery;
 use App\ParserBundle\Application\GetShoprenterWorkerById\GetShoprenterWorkerByIdQuery;
+use App\ParserBundle\Domain\Input\SlackFileInput;
 use App\ParserBundle\Domain\ShoprenterWorker;
-use App\ParserBundle\Infrastructure\FileReader\JsonFileReader;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +14,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Messenger\Exception\HandlerFailedException;
 use Symfony\Component\Messenger\HandleTrait;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Throwable;
 
 class FileUploadController extends AbstractController
 {
@@ -49,10 +46,8 @@ class FileUploadController extends AbstractController
         $worker = $this->handle(new GetShoprenterWorkerByIdQuery($this->getUser()->getId()));
 
         try {
-
-            $urls = $this->handle(new GetImagesFromFileQuery(
-                $file->getPathname(),
-                $file->getClientOriginalName(),
+            $urls = $this->handle(new GetImagesFromInputQuery(
+                new SlackFileInput($file->getPathname(), $file->getClientOriginalName()),
                 $worker->getId()
             ));
         } catch (HandlerFailedException $exception) {
